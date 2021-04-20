@@ -2,7 +2,11 @@ package recuJDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.imageio.metadata.IIOMetadataFormatImpl;
 
 public class Conectores {
 	private Connection conexion;
@@ -38,11 +42,27 @@ public class Conectores {
 		}
 	}
 
-	
-	private void buscaValor(String campo) {
-		// TODO Auto-generated method stub
+	void buscaValor(String key, String value) {
+		String query = String.format("Select * from naves where %s like %s", key, value);
+		try {
+			abrirConexion("add", "localhost", "root", "");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (Statement st = this.conexion.createStatement()) {
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				for (int i = 0; i < 14; i++) {
+					System.out.print(" " + rs.getInt(i));
+
+				}
+			}
+			st.close();
+			cerrarConexion();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
-
 
 }
