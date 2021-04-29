@@ -2,9 +2,6 @@ package recuRest;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-
-
-
 @XmlRootElement
 public class Nave {
 	private int id;
@@ -21,14 +18,12 @@ public class Nave {
 	private float diametro;
 	private int potencia;
 	private String estado;
-	
-	
-	
-	public Nave(int id, String nombre, String pais, String fabricante, String sistemaLanzamiento, float longitud,
+
+	public Nave(/* int id, */String nombre, String pais, String fabricante, String sistemaLanzamiento, float longitud,
 			int masaSeco, int masaLanzamiento, int cargaUtil, float volumenUtil, int cargaUtilRetorno, float diametro,
-			int potencia,String estado) {
+			int potencia, String estado) {
 		super();
-		this.id = id;
+		// this.id = id;
 		this.nombre = nombre;
 		this.pais = pais;
 		this.fabricante = fabricante;
@@ -41,12 +36,12 @@ public class Nave {
 		this.cargaUtilRetorno = cargaUtilRetorno;
 		this.diametro = diametro;
 		this.potencia = potencia;
-		this.estado= estado;
-		
+		this.estado = estado;
+
 	}
-	
+
 	public Nave() {
-	
+
 	}
 
 	public int getId() {
@@ -169,7 +164,5 @@ public class Nave {
 				+ ", cargaUtilRetorno=" + cargaUtilRetorno + ", diametro=" + diametro + ", potencia=" + potencia
 				+ ", estado=" + estado + "]";
 	}
-	
-	
-	
+
 }
