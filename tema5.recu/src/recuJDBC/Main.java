@@ -37,8 +37,9 @@ public class Main {
 			 * base de datos concreta. c) Nombre de las columnas de la tabla naves, tipo de
 			 * dato y si permite nulos. d) Campo que es clave primaria de tabla notas.
 			 */
-
-			con.getInfo("recuperacion");
+			
+			//con.getInfo("recuperacion");
+			con.getInfoRSmt("Select * from naves");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

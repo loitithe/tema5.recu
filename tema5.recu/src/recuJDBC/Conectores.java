@@ -301,24 +301,40 @@ public class Conectores {
 
 	}
 
-	
-	void getPaises() throws SQLException{
-		CallableStatement cs= this.conexion.prepareCall("CALL paises");
-		ResultSet rs= cs.executeQuery();
+	/**
+	 * Ejercicio 7- Procedimiento almacenado paises
+	 * 
+	 * @throws SQLException
+	 */
+	void getPaises() throws SQLException {
+		CallableStatement cs = this.conexion.prepareCall("CALL paises");
+		ResultSet rs = cs.executeQuery();
 		while (rs.next()) {
-			
 			System.out.println(rs.getString(1));
-			
+
 		}
-		
+
 	}
-	
+
+	/**
+	 * Ejercicio 8
+	 * 
+	 * @param bd
+	 */
 	public void getInfo(String bd) {
 		DatabaseMetaData dbmt;
-		ResultSet tablas, columnas;
+		ResultSet pk, db, tablas, columnas;
 		try {
 			dbmt = this.conexion.getMetaData();
+
+			db = dbmt.getCatalogs();
+			System.out.println("Bases de datos disponibles :");
+			while (db.next()) {
+				System.out.println(db.getString(1));
+			}
+			System.out.println("### Info de las tablas ###");
 			tablas = dbmt.getTables(bd, null, null, null);
+
 			while (tablas.next()) {
 				System.out.println(
 						String.format("%s %s", tablas.getString("TABLE_NAME"), tablas.getString("TABLE_TYPE")));
@@ -328,12 +344,27 @@ public class Conectores {
 							columnas.getString("TYPE_NAME"), columnas.getInt("COLUMN_SIZE"),
 							columnas.getString("IS_NULLABLE"), columnas.getString("IS_AUTOINCREMENT")));
 				}
+				pk = dbmt.getPrimaryKeys(tablas.getString("TABLE_CAT"), tablas.getString("TABLE_SCHEM"),
+						tablas.getString("TABLE_NAME"));
+				while (pk.next()) {
+					System.out.println("Primary key_:" + pk.getString("COLUMN_NAME"));
+				}
 			}
 //			dbmt.getPrimaryKeys(catalog, schema, table;
+
 		} catch (SQLException e) {
 			System.out.println("Error obteniendo datos " + e.getLocalizedMessage());
 		}
 	}
-	
 
+	void getInfoRSmt(String query) throws SQLException {
+		Statement st = this.conexion.createStatement();
+		ResultSet rs = st.executeQuery(query);
+		ResultSetMetaData rsmd = rs.getMetaData();
+		System.out.println("Id\tNombre\tAlias\tTipo");
+		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+			System.out.println(String.format("%d\t%s\t%s\t%s", i, rsmd.getColumnName(i), rsmd.getColumnLabel(i),
+					rsmd.getColumnTypeName(i)));
+		}
+	}
 }
